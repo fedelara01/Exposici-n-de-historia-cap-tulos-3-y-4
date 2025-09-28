@@ -285,3 +285,204 @@
 </body>
 </html>
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz Historia Argentina</title>
+  <style>
+    body{font-family:Arial;background:#f5f5f5;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:10px}
+    .quiz-container{background:white;border-radius:15px;padding:20px;max-width:600px;width:100%;box-shadow:0 4px 10px rgba(0,0,0,0.2);text-align:center}
+    h2{font-size:18px;margin-bottom:15px}
+    .options{display:flex;flex-direction:column;gap:12px}
+    .option{padding:15px;background:#e0e0e0;border:none;border-radius:10px;cursor:pointer;font-size:16px;transition:0.3s}
+    .option:hover{background:#d5d5d5}
+    .correct{background:#81c784!important;color:white}
+    .incorrect{background:#e57373!important;color:white}
+    .timer{font-size:18px;margin-bottom:10px;color:#444}
+    .continue-btn{margin-top:20px;padding:12px 20px;background:#1976d2;color:white;border:none;border-radius:10px;cursor:pointer;font-size:16px;display:none;width:100%}
+    .scoreboard{margin-bottom:15px;font-size:16px;color:#333}
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="scoreboard">
+      ✅ Correctas: <span id="correctCount">0</span> | ❌ Incorrectas: <span id="incorrectCount">0</span>
+    </div>
+    <div class="timer">Tiempo: <span id="time">20</span>s</div>
+    <h2 id="question">Pregunta</h2>
+    <div class="options" id="options"></div>
+    <button class="continue-btn" id="nextBtn">Continuar</button>
+  </div>
+
+  <script>
+    const quizData = [
+      { q:"¿Quiénes apoyaron el golpe de 1955?", a:"B", options:[
+        "Solo las Fuerzas Armadas",
+        "Fuerzas Armadas, burguesía, sectores medios, partidos y la Iglesia",
+        "Solo los sindicatos",
+        "Solo estudiantes y maestros"
+      ]},
+      { q:"¿Cómo caracterizaban al gobierno de Perón sus opositores?", a:"B", options:[
+        "Democracia plena","Dictadura totalitaria","Monarquía constitucional","Sistema parlamentario"
+      ]},
+      { q:"¿Qué problemas detectó Prebisch en su informe preliminar?", a:"B", options:[
+        "Superávit comercial y auge industrial",
+        "Caída agropecuaria, industria pesada débil, crisis energética e inflación",
+        "Exceso de divisas y baja inflación",
+        "Mercado laboral estable y sin conflictos"
+      ]},
+      { q:"¿Qué recomendó Prebisch?", a:"A", options:[
+        "Devaluación, reducir déficit, congelar salarios y privatizar (algunas empresas)",
+        "Aumentar salarios y cerrar fronteras comerciales",
+        "Mantener todo igual",
+        "Nacionalizar bancos extranjeros"
+      ]},
+      { q:"¿Qué medidas económicas aplicó el gobierno tras el informe?", a:"A", options:[
+        "Devaluación, eliminación del IAPI e ingreso al FMI y Banco Mundial",
+        "Nacionalización total de la industria",
+        "Cierre de fronteras a las exportaciones",
+        "Subida del salario mínimo al doble"
+      ]},
+      { q:"¿Cuál fue el resultado económico de esas medidas?", a:"B", options:[
+        "Estabilidad: superávit y baja inflación",
+        "No lograron estabilidad: déficit persistente, industria dañada e inflación en alza",
+        "Abundantes divisas y fin de la deuda externa",
+        "Autoabastecimiento energético inmediato"
+      ]},
+      { q:"¿Por qué se considera “provisional” el gobierno de Aramburu?", a:"A", options:[
+        "Porque administró hasta que hubiera elecciones y evitó definir políticas de fondo",
+        "Porque fue elegido por voto popular por cuatro años",
+        "Porque instauró una monarquía temporal",
+        "Porque impuso reformas permanentes sin plazo"
+      ]},
+      { q:"¿Qué medidas tomó el gobierno contra el peronismo?", a:"B", options:[
+        "Lo integró al gobierno como aliado principal",
+        "Disolvió el Partido Peronista, intervino la CGT y prohibió símbolos y nombres (Decreto-Ley 4161)",
+        "Le devolvió todos los bienes estatales",
+        "Firmó un pacto de cooperación"
+      ]},
+      { q:"¿Qué establecía el Decreto 2739 y el Decreto 7107?", a:"A", options:[
+        "Autorizaba a patrones a modificar condiciones laborales y excluía a dirigentes de la CGT",
+        "Establecían vacaciones pagas obligatorias",
+        "Dispuso elecciones sindicales inmediatas",
+        "Nacionalizaban las empresas grandes"
+      ]},
+      { q:"¿Cómo reaccionaron los trabajadores ante esas medidas?", a:"B", options:[
+        "Apoyaron abiertamente al gobierno",
+        "Iniciaron la resistencia: sabotajes, “caños”, ralentización del trabajo y comandos",
+        "Emigraron en masa al exterior",
+        "Aceptaron perder todas las conquistas"
+      ]},
+      { q:"¿Cómo llega Frondizi a la presidencia?", a:"B", options:[
+        "Golpe militar",
+        "Acuerdo Frigerio-Perón",
+        "Coalición con Balbín",
+        "Votos en blanco mayoría"
+      ]},
+      { q:"¿Cuáles fueron las dos primeras medidas que tomó Frondizi?", a:"B", options:[
+        "Congelamiento de precios y control bancario",
+        "Aumento salarial 60% y ley de amnistía",
+        "Nacionalización de YPF y suba de impuestos",
+        "Disolución del Congreso y estado de sitio"
+      ]},
+      { q:"¿En qué consistía el 'modelo desarrollista'?", a:"A", options:[
+        "Fomento de la industria pesada con inversión y tecnología extranjera",
+        "Cerrarle el mercado al exterior y autarquía total",
+        "Rebaja masiva de salarios para atraer capitales",
+        "Exportar solo materias primas"
+      ]},
+      { q:"¿Cómo intentó el gobierno frenar las protestas obreras?", a:"A", options:[
+        "Declaró ilegalidad, estado de sitio, movilizó tropas y detuvo dirigentes",
+        "Aumentó constantemente todos los salarios",
+        "Legalizó todas las ocupaciones fabriles",
+        "Transferó fábricas a cooperativas obreras"
+      ]},
+      { q:"¿Por qué desconfiaban los militares de Frondizi?", a:"A", options:[
+        "Por su pasado acuerdista con el peronismo y su política exterior",
+        "Porque era general del Ejército",
+        "Por nacionalizar la prensa",
+        "Por cerrar las fábricas"
+      ]},
+      { q:"¿En qué consistió la campaña de 'acción psicológica' contra el gobierno de Illia?", a:"A", options:[
+        "Desgastar su figura y la de sus funcionarios",
+        "Impulsar su reelección inmediata",
+        "Fortalecer su relación con los militares",
+        "Aumentar la popularidad de Illia"
+      ]},
+      { q:"¿Cuál fue uno de los motivos que desencadenaron el golpe contra Illia?", a:"A", options:[
+        "La instalación mediática de la idea de 'vacío de poder' y debilitamiento del gobierno",
+        "Triunfo absoluto y popularidad masiva de Illia",
+        "Apoyo unánime del empresariado a Illia",
+        "Que Illia disolvió el Ejército"
+      ]}
+    ];
+
+    // --- lógica del juego ---
+    let current=0,timeLeft=20,timer;
+    let correctCount=0, incorrectCount=0;
+
+    const questionEl=document.getElementById("question"),
+          optionsEl=document.getElementById("options"),
+          timeEl=document.getElementById("time"),
+          nextBtn=document.getElementById("nextBtn"),
+          correctEl=document.getElementById("correctCount"),
+          incorrectEl=document.getElementById("incorrectCount");
+
+    function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr;}
+
+    function loadQuestion(){
+      clearInterval(timer);timeLeft=20;timeEl.textContent=timeLeft;
+      timer=setInterval(()=>{timeLeft--;timeEl.textContent=timeLeft;if(timeLeft<=0){clearInterval(timer);lockOptions()}},1000);
+      const q=quizData[current];questionEl.textContent=q.q;optionsEl.innerHTML="";
+      const optObjs=q.options.map((txt,i)=>({txt,letter:String.fromCharCode(65+i)}));
+      shuffleArray(optObjs);
+      optObjs.forEach(o=>{
+        const btn=document.createElement("button");btn.classList.add("option");btn.textContent=o.txt;
+        btn.onclick=()=>checkAnswer(btn,o.letter,q.a);optionsEl.appendChild(btn);
+      });
+      nextBtn.style.display="none";
+    }
+
+    function checkAnswer(btn,letter,correct){
+      clearInterval(timer);
+      if(letter===correct){
+        btn.classList.add("correct");
+        correctCount++;
+      }else{
+        btn.classList.add("incorrect");
+        incorrectCount++;
+        // resaltar correcta
+        [...optionsEl.children].forEach((b,i)=>{
+          if(b.textContent===quizData[current].options[correct.charCodeAt(0)-65]) b.classList.add("correct");
+        });
+      }
+      updateScore();
+      lockOptions();nextBtn.style.display="block";
+    }
+
+    function lockOptions(){[...optionsEl.children].forEach(b=>b.disabled=true)}
+
+    function updateScore(){
+      correctEl.textContent=correctCount;
+      incorrectEl.textContent=incorrectCount;
+    }
+
+    nextBtn.onclick=()=>{
+      current++;
+      if(current<quizData.length){
+        loadQuestion();
+      }else{
+        questionEl.textContent="¡Fin del juego! ✅ "+correctCount+" correctas, ❌ "+incorrectCount+" incorrectas.";
+        optionsEl.innerHTML="";
+        document.querySelector(".timer").style.display="none";
+        nextBtn.style.display="none";
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
+
