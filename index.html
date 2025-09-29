@@ -40,39 +40,39 @@
       { q:"¿Cómo caracterizaban al gobierno de Perón sus opositores?", a:"B", options:[
         "Democracia plena","Dictadura totalitaria","Monarquía constitucional","Sistema parlamentario"
       ]},
-      { q:"¿Qué problemas detectó Prebisch en su informe preliminar?", a:"B", options:[
-        "Superávit comercial y auge industrial",
-        "Caída agropecuaria, industria pesada débil, crisis energética e inflación",
-        "Exceso de divisas y baja inflación",
-        "Mercado laboral estable y sin conflictos"
+      { q:"¿Cuál es uno de los problemas que detectó Prebisch en su informe preliminar?", a:"A", options:[
+        "Industria pesada débil",
+        "Superávit alto",
+        "Salarios muy bajos",
+        "Pleno empleo"
       ]},
-      { q:"¿Qué recomendó Prebisch?", a:"A", options:[
-        "Devaluación, reducir déficit, congelar salarios y privatizar (algunas empresas)",
-        "Aumentar salarios y cerrar fronteras comerciales",
-        "Mantener todo igual",
-        "Nacionalizar bancos extranjeros"
+      { q:"¿Cuál fue una de las recomendaciones de Prebisch?", a:"A", options:[
+        "Congelar salarios",
+        "Aumentar exportaciones",
+        "Crear nuevos impuestos",
+        "Eliminar sindicatos"
       ]},
-      { q:"¿Qué medidas económicas aplicó el gobierno tras el informe?", a:"A", options:[
-        "Devaluación, eliminación del IAPI e ingreso al FMI y Banco Mundial",
-        "Nacionalización total de la industria",
-        "Cierre de fronteras a las exportaciones",
-        "Subida del salario mínimo al doble"
+      { q:"¿Cuál fue una de las medidas económicas que se aplicaron tras el informe?", a:"A", options:[
+        "Devaluación",
+        "Cerrar fronteras",
+        "Duplicar salarios",
+        "Nacionalizar bancos"
       ]},
-      { q:"¿Cuál fue el resultado económico de esas medidas?", a:"B", options:[
-        "Estabilidad: superávit y baja inflación",
-        "No lograron estabilidad: déficit persistente, industria dañada e inflación en alza",
-        "Abundantes divisas y fin de la deuda externa",
-        "Autoabastecimiento energético inmediato"
+      { q:"¿Cuál fue uno de los resultados de las medidas económicas?", a:"A", options:[
+        "Déficit persistente",
+        "Pleno empleo",
+        "Estabilidad cambiaria",
+        "Superávit comercial"
       ]},
       { q:"¿Por qué se considera “provisional” el gobierno de Aramburu?", a:"A", options:[
-        "Porque administró hasta que hubiera elecciones y evitó definir políticas de fondo",
+        "Porque administró hasta que hubieran elecciones",
         "Porque fue elegido por voto popular por cuatro años",
         "Porque instauró una monarquía temporal",
         "Porque impuso reformas permanentes sin plazo"
       ]},
-      { q:"¿Qué medidas tomó el gobierno contra el peronismo?", a:"B", options:[
+      { q:"¿Qué medidas tomó el gobierno contra el peronismo?", a:"A", options:[
+        "Disolvió el Partido Peronista e intervino la CGT",
         "Lo integró al gobierno como aliado principal",
-        "Disolvió el Partido Peronista, intervino la CGT y prohibió símbolos y nombres (Decreto-Ley 4161)",
         "Le devolvió todos los bienes estatales",
         "Firmó un pacto de cooperación"
       ]},
@@ -82,9 +82,9 @@
         "Dispuso elecciones sindicales inmediatas",
         "Nacionalizaban las empresas grandes"
       ]},
-      { q:"¿Cómo reaccionaron los trabajadores ante esas medidas?", a:"B", options:[
+      { q:"¿Cómo reaccionaron los trabajadores ante esas medidas?", a:"A", options:[
+        "Iniciaron la resistencia",
         "Apoyaron abiertamente al gobierno",
-        "Iniciaron la resistencia: sabotajes, “caños”, ralentización del trabajo y comandos",
         "Emigraron en masa al exterior",
         "Aceptaron perder todas las conquistas"
       ]},
@@ -166,7 +166,6 @@
       }else{
         btn.classList.add("incorrect");
         incorrectCount++;
-        // resaltar correcta
         [...optionsEl.children].forEach((b,i)=>{
           if(b.textContent===quizData[current].options[correct.charCodeAt(0)-65]) b.classList.add("correct");
         });
@@ -198,5 +197,4 @@
   </script>
 </body>
 </html>
-
 
